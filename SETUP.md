@@ -86,6 +86,13 @@ Linked to **pmndrs/pmnd** → https://pmnd-pmndrs.vercel.app. Redeploy with
 `pmnd-redis` Upstash resource (`REDIS_URL`); without it the channel silently
 falls back to in-memory state and loses subscriptions on every cold start.
 
+The `DISCORD_*` variables are set on Production only, so `agent/channels/discord.ts`
+mounts the adapter only when `DISCORD_BOT_TOKEN` is present — otherwise
+`createDiscordAdapter()` throws and takes down every preview build and every
+`eve dev` run without secrets. Deployments without the token just have no
+Discord channel, which costs nothing: the Gateway listener is a cron, and
+Vercel runs crons in production only.
+
 ## Still to do
 
 - [x] Fill `DISCORD_ALLOWED_CHANNEL_IDS` — `740094974187798609` (#poimandres),
