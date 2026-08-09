@@ -5,7 +5,7 @@ import type { Message, Thread } from "chat";
 import { chatSdkChannel } from "eve/channels/chat-sdk";
 
 /**
- * Poimandres Discord. Members talk to the agent with `@dam hey`.
+ * Poimandres Discord. Members talk to the agent with `@pmnd hey`.
  *
  * Regular messages only reach a bot through the Discord Gateway (with the
  * Message Content intent), never through HTTP Interactions — so the webhook
@@ -31,7 +31,7 @@ function isAllowed(thread: Thread, message: Message): boolean {
 }
 
 export const { bot, channel, send } = chatSdkChannel({
-  userName: "dam",
+  userName: "pmnd",
   adapters: {
     discord: createDiscordAdapter(),
   },

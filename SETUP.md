@@ -1,13 +1,13 @@
-# dam — setup
+# pmnd — setup
 
 An [eve](https://eve.dev) agent reachable from the Poimandres Discord with
-`@dam hey`.
+`@pmnd hey`.
 
 ## Discord application
 
 | | |
 |---|---|
-| App | **dam** — `1535916234330079292` |
+| App | **pmnd** — `1535916234330079292` |
 | Portal | https://discord.com/developers/applications/1535916234330079292 |
 | Owner | personal Discord account (move it to a Discord *Team* if pmndrs should own it) |
 | Message Content Intent | enabled — required, regular messages never reach a bot without it |
@@ -38,7 +38,7 @@ To collect ids: Discord ▸ Settings ▸ Advanced ▸ Developer Mode, then
 right-click a channel ▸ *Copy Channel ID*. Set them comma-separated in
 `.env.local` and in the Vercel project's environment.
 
-## How `@dam hey` reaches the agent
+## How `@pmnd hey` reaches the agent
 
 Discord delivers regular messages only over the Gateway WebSocket, never
 through HTTP Interactions. So `agent/schedules/discord-gateway.ts` runs every 4
@@ -60,9 +60,9 @@ listener stays connected and simply drops every event.
 
 ## Deployment
 
-Linked to **pmndrs/dam** → https://dam-pmndrs.vercel.app. Redeploy with
+Linked to **pmndrs/pmnd** → https://pmnd-pmndrs.vercel.app. Redeploy with
 `npx eve deploy`. Thread subscriptions and inbound dedupe live in the
-`dam-redis` Upstash resource (`REDIS_URL`); without it the channel silently
+`pmnd-redis` Upstash resource (`REDIS_URL`); without it the channel silently
 falls back to in-memory state and loses subscriptions on every cold start.
 
 ## Still to do
@@ -70,4 +70,4 @@ falls back to in-memory state and loses subscriptions on every cold start.
 - [ ] Invite the bot to the server (admin) — see the URL above
 - [ ] Fill `DISCORD_ALLOWED_CHANNEL_IDS` locally *and* on Vercel
       (`vercel env add DISCORD_ALLOWED_CHANNEL_IDS production`), then redeploy
-- [ ] Give `agent/instructions.md` a real job once dam's role is settled
+- [ ] Give `agent/instructions.md` a real job once pmnd's role is settled

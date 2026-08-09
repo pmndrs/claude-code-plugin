@@ -4,7 +4,7 @@ import { bot } from "../channels/discord";
 /**
  * Keeps the Discord Gateway WebSocket alive on serverless.
  *
- * Discord only delivers regular messages (what `@dam hey` is) over the
+ * Discord only delivers regular messages (what `@pmnd hey` is) over the
  * Gateway, so a listener has to be running. Gateway events are forwarded to
  * the channel's own webhook, which handles them statelessly.
  *
