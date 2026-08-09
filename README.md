@@ -7,11 +7,11 @@ recalling an API that may have moved.
 ## Install
 
 ```bash
-claude plugin marketplace add pmndrs/pmnd
+claude plugin marketplace add pmndrs/claude-code-plugin
 claude plugin install pmndrs@pmndrs
 ```
 
-Or from inside a session: `/plugin marketplace add pmndrs/pmnd`, then
+Or from inside a session: `/plugin marketplace add pmndrs/claude-code-plugin`, then
 `/plugin install pmndrs@pmndrs`.
 
 The plugin bundles an MCP server, so Claude Code asks you to approve it on

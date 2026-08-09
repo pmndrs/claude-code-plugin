@@ -7,7 +7,7 @@
     "url": "https://github.com/pmndrs"
   },
   "homepage": "https://docs.pmnd.rs",
-  "repository": "https://github.com/pmndrs/pmnd",
+  "repository": "https://github.com/pmndrs/claude-code-plugin",
   "license": "MIT",
   "keywords": [
     "react-three-fiber",
