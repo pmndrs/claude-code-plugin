@@ -1,0 +1,36 @@
+{
+  "name": "dam",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "eve dev",
+    "build": "eve build",
+    "start": "eve start",
+    "deploy": "eve deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmndrs/dam.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/pmndrs/dam/issues"
+  },
+  "homepage": "https://github.com/pmndrs/dam#readme",
+  "dependencies": {
+    "@chat-adapter/discord": "^4.37.0",
+    "@chat-adapter/state-memory": "^4.37.0",
+    "@chat-adapter/state-redis": "^4.37.0",
+    "@vercel/connect": "0.4.3",
+    "ai": "^7.0.58",
+    "chat": "^4.37.0",
+    "eve": "^0.31.3",
+    "zod": "^4.4.3"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}
