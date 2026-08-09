@@ -1,0 +1,19 @@
+{
+  "name": "pmndrs",
+  "description": "Answers questions about react-three-fiber, drei and zustand from the official docs.pmnd.rs pages instead of from memory.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Poimandres",
+    "url": "https://github.com/pmndrs"
+  },
+  "homepage": "https://docs.pmnd.rs",
+  "repository": "https://github.com/pmndrs/pmnd",
+  "license": "MIT",
+  "keywords": [
+    "react-three-fiber",
+    "drei",
+    "zustand",
+    "three.js",
+    "docs"
+  ]
+}
