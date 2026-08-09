@@ -63,18 +63,19 @@ listener stays connected and simply drops every event.
 
 ## Documentation lookups
 
-`agent/connections/pmndrs.ts` points the agent at the public docs MCP server,
-https://docs.pmnd.rs/api/mcp — no auth, one tool, `pmndrs__get_page_content`.
+`agent/connections/docs.ts` points the agent at the public docs MCP server,
+https://docs.pmnd.rs/api/mcp — no auth, one tool, `docs__get_page_content`.
 
 That tool needs an exact page path, and the server publishes its page lists as
 MCP *resources* (`docs://<lib>/index`) — which eve does not surface, since MCP
-connections expose tools only. So `agent/tools/pmndrs_docs_index.ts` reads that
+connections expose tools only. So `agent/tools/docs_index.ts` reads that
 resource over the same endpoint by hand, and `agent/instructions.md` tells the
 agent to call it before fetching a page. Drop it the day eve exposes MCP
 resources.
 
 The server advertises eleven libraries but serves only four —
-react-three-fiber, drei, zustand, docs. The other seven have no
+react-three-fiber, drei, zustand, and the pmndrs/docs site itself. The other
+seven have no
 `llms-full.txt` upstream, so both their index and every page fetch fail. The
 tool's enum is restricted to the working four; widen it if those dumps appear.
 

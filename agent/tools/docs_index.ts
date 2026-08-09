@@ -4,7 +4,7 @@ import { z } from "zod";
 /**
  * The pmndrs docs server publishes its page lists as MCP *resources*
  * (`docs://<lib>/index`), and eve's MCP connections surface tools only. Without
- * those lists the model has to invent paths for `pmndrs__get_page_content`,
+ * those lists the model has to invent paths for `docs__get_page_content`,
  * which the server answers with "page not found". So this tool reads the
  * resource over the same endpoint by hand.
  */
@@ -33,8 +33,8 @@ function parseSseJson(body: string): unknown {
 export default defineTool({
   description: [
     "List the documentation pages available for a pmndrs library, as",
-    "`<path> - <title>` lines. Call this before pmndrs__get_page_content and",
-    "pass one of these paths verbatim.",
+    "`<path> - <title>` lines. Call this before docs__get_page_content and pass",
+    "one of these paths verbatim.",
   ].join(" "),
   inputSchema: z.object({
     lib: z.enum(LIBS).describe("The pmndrs library to list pages for."),
