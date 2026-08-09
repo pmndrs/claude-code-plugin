@@ -20,6 +20,9 @@ const LISTENER_MS = 280 * 1000;
 export default defineSchedule({
   cron: "*/4 * * * *",
   run: async ({ waitUntil }) => {
+    // No credentials, no adapter to drive — see agent/channels/discord.ts.
+    if (!process.env.DISCORD_BOT_TOKEN) return;
+
     const discord = bot.getAdapter("discord");
     const baseUrl = process.env.EVE_PUBLIC_URL ?? `https://${process.env.VERCEL_URL}`;
     const webhookUrl = new URL(`${baseUrl}/eve/v1/discord`);

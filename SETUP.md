@@ -61,12 +61,37 @@ runtime as a system env var). Protection stays on for everyone else. Worth
 knowing when debugging: a 401 here is invisible from the outside — the Gateway
 listener stays connected and simply drops every event.
 
+## Documentation lookups
+
+`agent/connections/docs.ts` points the agent at the public docs MCP server,
+https://docs.pmnd.rs/api/mcp — no auth, one tool, `docs__get_page_content`.
+
+That tool needs an exact page path, and the server publishes its page lists as
+MCP *resources* (`docs://<lib>/index`) — which eve does not surface, since MCP
+connections expose tools only. So `agent/tools/docs_index.ts` reads that
+resource over the same endpoint by hand, and `agent/instructions.md` tells the
+agent to call it before fetching a page. Drop it the day eve exposes MCP
+resources.
+
+The server advertises eleven libraries but serves only four —
+react-three-fiber, drei, zustand, and the pmndrs/docs site itself. The other
+seven have no
+`llms-full.txt` upstream, so both their index and every page fetch fail. The
+tool's enum is restricted to the working four; widen it if those dumps appear.
+
 ## Deployment
 
 Linked to **pmndrs/pmnd** → https://pmnd-pmndrs.vercel.app. Redeploy with
 `npx eve deploy`. Thread subscriptions and inbound dedupe live in the
 `pmnd-redis` Upstash resource (`REDIS_URL`); without it the channel silently
 falls back to in-memory state and loses subscriptions on every cold start.
+
+The `DISCORD_*` variables are set on Production only, so `agent/channels/discord.ts`
+mounts the adapter only when `DISCORD_BOT_TOKEN` is present — otherwise
+`createDiscordAdapter()` throws and takes down every preview build and every
+`eve dev` run without secrets. Deployments without the token just have no
+Discord channel, which costs nothing: the Gateway listener is a cron, and
+Vercel runs crons in production only.
 
 ## Still to do
 

@@ -30,11 +30,19 @@ function isAllowed(thread: Thread, message: Message): boolean {
   return allowedChannelIds.has(thread.channelId);
 }
 
+/**
+ * The Discord credentials only exist in the production environment, and
+ * `createDiscordAdapter()` throws on a missing bot token — which would kill
+ * every preview build, and `eve dev` for anyone who clones this without the
+ * secrets. Mount the adapter only when the token is there; a deployment without
+ * one simply has no Discord channel. Nothing else feeds it anyway: the Gateway
+ * listener runs from a cron, and Vercel only runs crons in production.
+ */
+const hasCredentials = Boolean(process.env.DISCORD_BOT_TOKEN);
+
 export const { bot, channel, send } = chatSdkChannel({
   userName: "pmnd",
-  adapters: {
-    discord: createDiscordAdapter(),
-  },
+  adapters: hasCredentials ? { discord: createDiscordAdapter() } : {},
   state: process.env.REDIS_URL ? createRedisState() : createMemoryState(),
 });
 
