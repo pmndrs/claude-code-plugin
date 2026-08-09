@@ -34,6 +34,9 @@ The bot ignores every channel outside `DISCORD_ALLOWED_CHANNEL_IDS`, and an
 empty list means it stays silent everywhere — a public server would otherwise
 let anyone spend AI Gateway credits.
 
+Currently set to `740094974187798609` (#poimandres), locally and in the Vercel
+production environment.
+
 To collect ids: Discord ▸ Settings ▸ Advanced ▸ Developer Mode, then
 right-click a channel ▸ *Copy Channel ID*. Set them comma-separated in
 `.env.local` and in the Vercel project's environment.
@@ -67,7 +70,12 @@ falls back to in-memory state and loses subscriptions on every cold start.
 
 ## Still to do
 
-- [ ] Invite the bot to the server (admin) — see the URL above
-- [ ] Fill `DISCORD_ALLOWED_CHANNEL_IDS` locally *and* on Vercel
-      (`vercel env add DISCORD_ALLOWED_CHANNEL_IDS production`), then redeploy
+- [x] Fill `DISCORD_ALLOWED_CHANNEL_IDS` — `740094974187798609` (#poimandres),
+      local and production, deployed
+- [ ] **Invite the bot to the server** (needs an admin) — see the URL above.
+      Nothing else can be tested until this happens.
 - [ ] Give `agent/instructions.md` a real job once pmnd's role is settled
+
+To widen the allowlist later: `vercel env rm DISCORD_ALLOWED_CHANNEL_IDS
+production`, add it back with the new comma-separated list, mirror it in
+`.env.local`, then `npx eve deploy`.
