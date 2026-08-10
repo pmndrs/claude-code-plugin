@@ -32,6 +32,21 @@ case-sensitive.
 Indexes are small (16–134 lines); reading one is cheap and usually enough to
 tell whether the docs cover the question at all.
 
+## When to hand it off
+
+Do the lookup inline by default. One index plus one page is smaller than the
+round trip through another agent, and quoting from a page you read yourself is
+more faithful than quoting a summary of it.
+
+Hand off to the `docs-lookup` agent when the reading is wide: three or more
+pages, or two or more libraries in one question — a drei helper plus the R3F
+hook it wraps plus the zustand store behind them. There the index listings and
+page bodies would crowd out the code you are actually working on, and the agent
+reads them in its own context and reports back.
+
+Whatever it reports is a doc quote, not an answer: check it still addresses the
+question, and keep its links.
+
 ## What the server actually serves
 
 Four libraries, despite the eleven its tool schema advertises:

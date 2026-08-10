@@ -32,6 +32,11 @@ Nothing to invoke. Ask normally:
 and Claude reads the docs index, fetches the page, and answers with a link.
 `/pmndrs:docs` runs the same lookup on demand.
 
+A question that spans several pages — a drei helper, the R3F hook under it, and
+the zustand store behind that — goes to the `pmndrs:docs-lookup` agent instead,
+which reads the pages in its own context and reports back the signatures. One
+page stays inline: the round trip costs more than the index it would save.
+
 The docs server advertises eleven libraries but only serves four —
 react-three-fiber, drei, zustand, and the pmndrs/docs site itself. The other
 seven (a11y, react-postprocessing, uikit, xr, prai, viverse, leva) publish no
@@ -45,6 +50,7 @@ Components, which is what grows:
 | | |
 |---|---|
 | `skills/docs/SKILL.md` | when to look things up, and how — index resource first, then `get_page_content` |
+| `agents/docs-lookup.md` | the read-only subagent for wide lookups; quotes pages verbatim, cannot edit files |
 
 And the plumbing, which mostly doesn't:
 
@@ -71,7 +77,8 @@ checks the things that fail silently at runtime rather than loudly at load: that
 a component addressing a bundled MCP server uses the scoped name it registers
 under once installed, that the plugin name still matches between the two
 manifests it is derived from, that no server is declared and then used by
-nothing, and that this README lists every component shipped.
+nothing, that an agent's `tools` entries resolve to real tools, and that this
+README lists every component shipped.
 
 That last one is the rule to keep as components accumulate: a capability nobody
 can find is a capability nobody uses, so the README table is enforced rather

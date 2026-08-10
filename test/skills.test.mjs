@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { skills } from './helpers.mjs'
+import { skills, agents } from './helpers.mjs'
 
 const all = skills()
 
@@ -55,4 +55,10 @@ test('the docs skill states which libraries are served, and when that was checke
   const date = new Date(Date.UTC(Number(y), Number(m) - 1, Number(d)))
   assert.equal(date.getUTCDate(), Number(d), 'checked-on date is a real date')
   assert.ok(date.getTime() <= Date.now(), 'checked-on date is not in the future')
+})
+
+test('the docs skill tells Claude when to delegate, and to an agent that exists', () => {
+  const names = agents().map((a) => a.fields.name)
+  const referenced = names.filter((name) => docs.body.includes(name))
+  assert.ok(referenced.length > 0, `SKILL.md should route wide lookups to one of: ${names.join(', ')}`)
 })
