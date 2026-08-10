@@ -9,9 +9,9 @@
     {
       "name": "pmndrs",
       "source": "./",
-      "description": "Answers questions about react-three-fiber, drei and zustand from the official docs.pmnd.rs pages instead of from memory.",
+      "description": "Poimandres tooling for Claude Code. Currently: answers questions about react-three-fiber, drei and zustand from the official docs.pmnd.rs pages instead of from memory.",
       "category": "documentation",
-      "tags": ["react-three-fiber", "drei", "zustand", "three.js"]
+      "tags": ["pmndrs", "poimandres", "react-three-fiber", "drei", "zustand", "three.js"]
     }
   ]
 }

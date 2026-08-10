@@ -16,7 +16,9 @@ indexes as MCP *resources* and one tool, `get_page_content(lib, path)`.
 
 1. **Read the index resource** for the library: `docs://<lib>/index`, via
    `ReadMcpResourceTool`. It returns one `<path> - <title>` line per page.
-   If the server name is ambiguous, `ListMcpResourcesTool` shows which server
+   Installed as a plugin, the server registers under the scoped name
+   `plugin:pmndrs:docs` rather than the bare key `docs` — pass that as `server`.
+   `ListMcpResourcesTool` with no argument shows the live name and which server
    serves the `docs://` URIs.
 2. **Fetch the page** with this plugin's `get_page_content`, passing a `path`
    copied verbatim from that index and the same `lib`.

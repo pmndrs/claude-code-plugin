@@ -1,0 +1,10 @@
+{
+  "name": "@pmndrs/claude-code-plugin",
+  "private": true,
+  "type": "module",
+  "description": "Tests for the pmndrs Claude Code plugin. The plugin itself is plain markdown and JSON — nothing here is published or installed.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\""
+  }
+}
