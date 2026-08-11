@@ -42,17 +42,9 @@ claude plugin validate .
 claude plugin validate .claude-plugin/plugin.json
 ```
 
-## Test
-
-```
-npm test
-```
-
-Two offline checks, and deliberately no more. This plugin is configuration and
-prose — there is no code to unit-test, and asserting that a file contains what it
-contains proves nothing. A check earns its place only by pinning a relationship
-*between* two files that nothing else enforces: the tool name in the skill against
-the server key in `.mcp.json`, and the marketplace against the plugin manifest.
+There is no test suite: this repo is configuration and prose, and a check that
+reads a file back to itself proves nothing. The two edits that break things
+silently are written down in [AGENTS.md](AGENTS.md).
 
 Whether `https://docs.pmnd.rs/api/mcp` serves what it claims is not this repo's
 business — that belongs to [pmndrs/docs](https://github.com/pmndrs/docs), which
