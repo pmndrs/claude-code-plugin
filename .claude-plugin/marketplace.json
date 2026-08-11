@@ -1,17 +1,14 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "pmndrs",
-  "description": "Claude Code plugins from Poimandres.",
-  "owner": {
-    "name": "Poimandres",
-    "url": "https://github.com/pmndrs"
-  },
+  "owner": { "name": "Poimandres", "url": "https://github.com/pmndrs" },
+  "description": "Poimandres' Claude Code plugins.",
   "plugins": [
     {
       "name": "pmndrs",
       "source": "./",
-      "description": "Answers questions about react-three-fiber, drei and zustand from the official docs.pmnd.rs pages instead of from memory.",
-      "category": "documentation",
-      "tags": ["react-three-fiber", "drei", "zustand", "three.js"]
+      "description": "Poimandres' Claude Code plugin.",
+      "category": "workflow"
     }
   ]
 }
