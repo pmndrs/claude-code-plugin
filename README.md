@@ -10,8 +10,7 @@ servers — belongs here. What it actually carries is still being defined.
 ## Contents
 
 - **`.mcp.json`** — the `pmndrs` MCP server (`https://docs.pmnd.rs/api/mcp`),
-  which serves the official docs for react-three-fiber, drei, zustand, xr,
-  uikit and the rest of the ecosystem.
+  which serves the official docs for react-three-fiber, drei and zustand.
 - **`skills/docs`** — makes Claude actually reach for those docs instead of
   answering from memory, and teaches it to read a library index before
   fetching a page.
