@@ -27,10 +27,10 @@ instead of retrying variants.
 Served — route these through the MCP: `react-three-fiber`, `drei`, `zustand`, `docs`
 (the generator itself). Names are case-sensitive.
 
-Unserved — the tool's `lib` enum also advertises `a11y`, `react-postprocessing`,
-`uikit`, `xr`, `prai`, `viverse`, `leva`, but their sites publish no `llms-full.txt`,
-so every call fails and every index comes back empty. Use WebFetch on their docs site
-instead. Fix in flight: pmndrs/docs#555.
+Anything else is unserved. The tool's `lib` enum advertises more libraries than that,
+but the extra entries have no `llms-full.txt` behind them: every call fails and every
+index comes back empty. Treat a library missing from the list above as absent, and use
+WebFetch on its docs site. Fix in flight: pmndrs/docs#555.
 
 ## Budget
 

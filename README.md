@@ -45,24 +45,27 @@ claude plugin validate .claude-plugin/plugin.json
 ## Test
 
 ```
-node --test
+npm test
 ```
 
-Offline checks over this repo's own files — no dependencies, no network, runs in
-milliseconds. This is what CI gates pull requests on.
+Offline checks over this repo's own files. `vitest.config.mts` matches
+`test/**/*.test.mts` only, so this can never reach the network. It is what CI gates
+pull requests on, alongside `npm run typecheck`.
 
 ```
-node --test scripts/check-docs-mcp.mjs
+npm run test:live
 ```
 
-The live check against `https://docs.pmnd.rs/api/mcp`. It runs weekly rather than on
-pull requests: it can only fail for reasons outside your patch, and it files an issue
-when it does. What it catches is the server's coverage drifting away from what
-`skills/docs/SKILL.md` claims — so it talks to the real server, since a mock would
-keep passing through exactly that drift.
+The live check against `https://docs.pmnd.rs/api/mcp`, on its own config so `npm test`
+never picks it up. It runs weekly rather than on pull requests: it can only fail for
+reasons outside your patch, and it files an issue when it does. What it catches is the
+server's coverage drifting away from what `skills/docs/SKILL.md` claims — so it talks
+to the real server, since a mock would keep passing through exactly that drift.
 
-The claim itself lives in [`scripts/docs-coverage.mjs`](scripts/docs-coverage.mjs):
-the offline suite pins the skill's prose to it, the live one pins it to reality.
+Only the positive claim is maintained, in [`test/coverage.mts`](test/coverage.mts).
+The complement is derived from the `lib` enum the server publishes, so a library that
+starts working — or a new one appearing in the enum — fails the check without anyone
+keeping a second list in sync.
 
 ## License
 

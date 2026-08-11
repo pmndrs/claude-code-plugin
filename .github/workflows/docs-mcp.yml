@@ -20,11 +20,13 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 24
+          cache: npm
+      - run: npm ci
 
       # shell: bash for pipefail -- the default shell is `bash -e` without it, so tee
       # would swallow a failing exit status and the check would always look green
       - shell: bash
-        run: node --test scripts/check-docs-mcp.mjs 2>&1 | tee check.log
+        run: npm run test:live 2>&1 | tee check.log
 
       # A scheduled run nobody watches is worth nothing, so surface it where the work
       # actually gets picked up. One issue, reopened and updated rather than piled up.
@@ -35,7 +37,7 @@ jobs:
           RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
-          body=$(printf 'The weekly check against `https://docs.pmnd.rs/api/mcp` failed.\n\nEither the server is down, or its coverage moved and `skills/docs/SKILL.md` now tells Claude something untrue. The assertion says which.\n\n```\n%s\n```\n\n[Full run](%s)\n' "$(tail -40 check.log)" "$RUN")
+          body=$(printf 'The weekly check against `https://docs.pmnd.rs/api/mcp` failed.\n\nEither the server is down, or its coverage moved and `skills/docs/SKILL.md` now tells Claude something untrue — in which case update `SERVED` in `test/coverage.mts` and the Coverage section of the skill. The assertion says which.\n\n```\n%s\n```\n\n[Full run](%s)\n' "$(tail -40 check.log)" "$RUN")
 
           # // empty, else jq prints the string "null" for an empty list and we would
           # try to comment on issue null

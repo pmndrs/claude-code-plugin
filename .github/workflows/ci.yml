@@ -18,5 +18,9 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-      # No dependencies and no network: the suite runs on node:test alone
-      - run: node --test
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      # Offline by construction: vitest.config.mts matches test/**/*.test.mts only,
+      # which leaves the live check out
+      - run: npm test
