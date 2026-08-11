@@ -42,15 +42,6 @@ claude plugin validate .
 claude plugin validate .claude-plugin/plugin.json
 ```
 
-There is no test suite: this repo is configuration and prose, and a check that
-reads a file back to itself proves nothing. The two edits that break things
-silently are written down in [AGENTS.md](AGENTS.md).
-
-Whether `https://docs.pmnd.rs/api/mcp` serves what it claims is not this repo's
-business — that belongs to [pmndrs/docs](https://github.com/pmndrs/docs), which
-tests it there. The Coverage section of the skill records what was true when it was
-written; when the server widens, widen the prose.
-
 ## License
 
 MIT
