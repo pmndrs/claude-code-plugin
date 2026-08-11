@@ -6,7 +6,7 @@ import { defineConfig } from 'vitest/config'
 // rather than noise.
 export default defineConfig({
   test: {
-    include: ['test/**/*.live.mts'],
+    include: ['*.live.mts'],
     // One page fetch can be slow, and a retry storm against someone else's docs site
     // is rude
     testTimeout: 30_000,

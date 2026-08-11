@@ -48,9 +48,15 @@ claude plugin validate .claude-plugin/plugin.json
 npm test
 ```
 
-Offline checks over this repo's own files. `vitest.config.mts` matches
-`test/**/*.test.mts` only, so this can never reach the network. It is what CI gates
-pull requests on, alongside `npm run typecheck`.
+Four offline checks, and deliberately no more. This plugin is configuration and
+prose — there is no code to unit-test, and asserting that a file contains what it
+contains proves nothing. A test earns its place here only by pinning a relationship
+*between* two files that nothing else enforces: the tool name in the skill against
+the server key in `.mcp.json`, the skill's served list against `coverage.mts`, the
+marketplace against the plugin manifest.
+
+`vitest.config.mts` matches `*.test.mts` only, so this can never reach the network.
+It is what CI gates pull requests on, alongside `npm run typecheck`.
 
 ```
 npm run test:live
@@ -62,7 +68,7 @@ reasons outside your patch, and it files an issue when it does. What it catches 
 server's coverage drifting away from what `skills/docs/SKILL.md` claims — so it talks
 to the real server, since a mock would keep passing through exactly that drift.
 
-Only the positive claim is maintained, in [`test/coverage.mts`](test/coverage.mts).
+Only the positive claim is maintained, in [`coverage.mts`](coverage.mts).
 The complement is derived from the `lib` enum the server publishes, so a library that
 starts working — or a new one appearing in the enum — fails the check without anyone
 keeping a second list in sync.

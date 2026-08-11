@@ -4,6 +4,6 @@ import { defineConfig } from 'vitest/config'
 // vitest.live.config.mts for why it runs on a different trigger.
 export default defineConfig({
   test: {
-    include: ['test/**/*.test.mts'],
+    include: ['*.test.mts'],
   },
 })

@@ -99,7 +99,7 @@ describe('coverage claim', () => {
 
     expect(
       working.toSorted(),
-      `update SERVED in test/coverage.mts and the Coverage section of skills/docs/SKILL.md`,
+      `update SERVED in coverage.mts and the Coverage section of skills/docs/SKILL.md`,
     ).toEqual(SERVED.toSorted())
   })
 })
