@@ -1,4 +1,4 @@
-# pmndrs/claude-code-plugin
+# ✴︎ poimandrizing...
 
 A [Claude Code plugin](https://code.claude.com/docs/en/plugins) for
 [Poimandres](https://github.com/pmndrs).
