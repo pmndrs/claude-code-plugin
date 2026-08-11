@@ -48,30 +48,16 @@ claude plugin validate .claude-plugin/plugin.json
 npm test
 ```
 
-Four offline checks, and deliberately no more. This plugin is configuration and
+Two offline checks, and deliberately no more. This plugin is configuration and
 prose — there is no code to unit-test, and asserting that a file contains what it
-contains proves nothing. A test earns its place here only by pinning a relationship
+contains proves nothing. A check earns its place only by pinning a relationship
 *between* two files that nothing else enforces: the tool name in the skill against
-the server key in `.mcp.json`, the skill's served list against `coverage.mts`, the
-marketplace against the plugin manifest.
+the server key in `.mcp.json`, and the marketplace against the plugin manifest.
 
-`vitest.config.mts` matches `*.test.mts` only, so this can never reach the network.
-It is what CI gates pull requests on, alongside `npm run typecheck`.
-
-```
-npm run test:live
-```
-
-The live check against `https://docs.pmnd.rs/api/mcp`, on its own config so `npm test`
-never picks it up. It runs weekly rather than on pull requests: it can only fail for
-reasons outside your patch, and it files an issue when it does. What it catches is the
-server's coverage drifting away from what `skills/docs/SKILL.md` claims — so it talks
-to the real server, since a mock would keep passing through exactly that drift.
-
-Only the positive claim is maintained, in [`coverage.mts`](coverage.mts).
-The complement is derived from the `lib` enum the server publishes, so a library that
-starts working — or a new one appearing in the enum — fails the check without anyone
-keeping a second list in sync.
+Whether `https://docs.pmnd.rs/api/mcp` serves what it claims is not this repo's
+business — that belongs to [pmndrs/docs](https://github.com/pmndrs/docs), which
+tests it there. The Coverage section of the skill records what was true when it was
+written; when the server widens, widen the prose.
 
 ## License
 

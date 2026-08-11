@@ -4,7 +4,6 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "test:live": "vitest run --config vitest.live.config.mts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
