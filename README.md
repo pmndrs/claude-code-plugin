@@ -1,52 +1,42 @@
-# pmndrs — a Claude Code plugin
+# pmndrs/claude-code-plugin
 
-Makes Claude read the [pmndrs docs](https://docs.pmnd.rs) before answering
-questions about **react-three-fiber**, **drei** and **zustand**, instead of
-recalling an API that may have moved.
+A [Claude Code plugin](https://code.claude.com/docs/en/plugins) for
+[Poimandres](https://github.com/pmndrs).
+
+Generalist on purpose: it is not tied to one library. Anything that makes
+Claude work better across the pmndrs repos — agents, skills, commands, MCP
+servers — belongs here. What it actually carries is still being defined.
+
+## Contents
+
+Nothing yet — the manifests, the license and the agent-facing docs, and that
+is deliberate. Components land as `agents/`, `skills/`, `commands/` and
+`.mcp.json` once we agree on what the plugin is for.
 
 ## Install
 
-```bash
-claude plugin marketplace add pmndrs/claude-code-plugin
-claude plugin install pmndrs@pmndrs
 ```
-
-Or from inside a session: `/plugin marketplace add pmndrs/claude-code-plugin`, then
-`/plugin install pmndrs@pmndrs`.
-
-The plugin bundles an MCP server, so Claude Code asks you to approve it on
-first use. It is the public docs.pmnd.rs endpoint — no auth, no credentials.
-
-## Use
-
-Nothing to invoke. Ask normally:
-
-> How do I pause the render loop in R3F?
-
-and Claude reads the docs index, fetches the page, and answers with a link.
-`/pmndrs:docs` runs the same lookup on demand.
-
-## What's inside
-
-| File | |
-|---|---|
-| `.mcp.json` | the `docs` MCP server → `https://docs.pmnd.rs/api/mcp` |
-| `skills/docs/SKILL.md` | when to look things up, and how — index resource first, then `get_page_content` |
-| `.claude-plugin/plugin.json` | the plugin manifest |
-| `.claude-plugin/marketplace.json` | lets this repo be added as a marketplace |
-
-The docs server advertises eleven libraries but only serves four —
-react-three-fiber, drei, zustand, and the pmndrs/docs site itself. The other
-seven (a11y, react-postprocessing, uikit, xr, prai, viverse, leva) publish no
-`llms-full.txt` upstream, so the skill tells Claude to say so rather than
-retry. Widen it the day those dumps appear.
+/plugin marketplace add pmndrs/claude-code-plugin
+/plugin install pmndrs@pmndrs
+```
 
 ## Develop
 
-```bash
-claude --plugin-dir .        # load this checkout directly
-claude plugin validate .     # check the manifests
+```
+claude --plugin-dir /path/to/claude-code-plugin
 ```
 
-`/reload-plugins` picks up edits without restarting; `SKILL.md` changes apply
-immediately.
+Run `/reload-plugins` to pick up changes without restarting.
+
+At the repo root both manifests are present, and `claude plugin validate .`
+reads the marketplace one. Pass the plugin manifest explicitly to validate the
+plugin itself:
+
+```
+claude plugin validate .
+claude plugin validate .claude-plugin/plugin.json
+```
+
+## License
+
+MIT
