@@ -4,11 +4,6 @@ on:
   push:
     branches: [main]
   pull_request:
-  # The docs MCP server can drift without a commit here, so check it on a schedule
-  # too -- a coverage change shows up as a red build rather than as Claude following
-  # a stale claim in skills/docs/SKILL.md.
-  schedule:
-    - cron: '0 6 * * 1'
   workflow_dispatch:
 
 concurrency:
@@ -23,5 +18,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      # No dependencies: the suite runs on node:test and fetch alone
+      # No dependencies and no network: the suite runs on node:test alone
       - run: node --test

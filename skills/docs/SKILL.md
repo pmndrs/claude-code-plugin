@@ -24,13 +24,13 @@ instead of retrying variants.
 
 ## Coverage
 
-Only four libraries are actually served: `react-three-fiber`, `drei`, `zustand`, and
-`docs` (the generator itself). Names are case-sensitive.
+Served — route these through the MCP: `react-three-fiber`, `drei`, `zustand`, `docs`
+(the generator itself). Names are case-sensitive.
 
-The tool's `lib` enum also advertises `a11y`, `react-postprocessing`, `uikit`, `xr`,
-`prai`, `viverse` and `leva`, but their sites publish no `llms-full.txt`, so every
-call fails and every index comes back empty. Don't route those through the MCP — use
-WebFetch on their docs site. Fix in flight: pmndrs/docs#555.
+Unserved — the tool's `lib` enum also advertises `a11y`, `react-postprocessing`,
+`uikit`, `xr`, `prai`, `viverse`, `leva`, but their sites publish no `llms-full.txt`,
+so every call fails and every index comes back empty. Use WebFetch on their docs site
+instead. Fix in flight: pmndrs/docs#555.
 
 ## Budget
 

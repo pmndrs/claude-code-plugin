@@ -1,31 +1,18 @@
-// Live contract test for the `pmndrs` MCP server declared in .mcp.json.
+// Live contract check against the real docs.pmnd.rs MCP server.
 //
-// It talks to the real docs.pmnd.rs, on purpose. What can break here is not our
-// code -- it is the server's coverage drifting away from what skills/docs/SKILL.md
-// promises. A mock would keep passing through exactly that drift.
+// Deliberately outside test/, which `node --test` walks wholesale regardless of file
+// naming: a third party being down must never redden a pull request here. CI runs
+// this on a schedule instead, where a failure means the world moved rather than that
+// someone's patch is wrong.
 //
-//   node --test test/
+//   node --test scripts/check-docs-mcp.mjs
 
-import { test, describe, before } from 'node:test'
+import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
-import { fileURLToPath } from 'node:url'
-
-const root = fileURLToPath(new URL('..', import.meta.url))
-
-// The libraries whose docs site publishes the /llms-full.txt dump the server parses.
-// SKILL.md tells Claude these are the ones worth routing through MCP.
-const SERVED = ['react-three-fiber', 'drei', 'zustand', 'docs']
-
-// Advertised in the tool's `lib` enum, but their sites 404 on /llms-full.txt, so
-// every call fails and every index comes back empty. See pmndrs/docs#555.
-const UNSERVED = ['a11y', 'react-postprocessing', 'uikit', 'xr', 'prai', 'viverse', 'leva']
-
-let endpoint
-let skill
+import { ENDPOINT, SERVED, UNSERVED } from './docs-coverage.mjs'
 
 async function rpc(method, params = {}) {
-  const res = await fetch(endpoint, {
+  const res = await fetch(ENDPOINT, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -46,21 +33,8 @@ async function rpc(method, params = {}) {
 /** Index text for a library, or '' when the server has no dump to parse. */
 async function indexOf(lib) {
   const { result, error } = await rpc('resources/read', { uri: `docs://${lib}/index` })
-  if (error) return ''
-  return result.contents[0].text
+  return error ? '' : result.contents[0].text
 }
-
-before(async () => {
-  const mcp = JSON.parse(await readFile(new URL('.mcp.json', `file://${root}`), 'utf8'))
-  endpoint = mcp.mcpServers.pmndrs.url
-  skill = await readFile(new URL('skills/docs/SKILL.md', `file://${root}`), 'utf8')
-})
-
-describe('.mcp.json', () => {
-  test('declares the pmndrs docs server over HTTP', () => {
-    assert.equal(endpoint, 'https://docs.pmnd.rs/api/mcp')
-  })
-})
 
 describe('server contract', () => {
   test('speaks MCP and identifies as pmndrs-docs', async () => {
@@ -69,6 +43,7 @@ describe('server contract', () => {
       capabilities: {},
       clientInfo: { name: 'pmndrs-plugin-test', version: '0' },
     })
+
     assert.equal(result.serverInfo.name, 'pmndrs-docs')
   })
 
@@ -76,17 +51,8 @@ describe('server contract', () => {
     const { result } = await rpc('tools/list')
     const tool = result.tools.find((t) => t.name === 'get_page_content')
 
-    assert.ok(tool, `get_page_content is gone -- SKILL.md calls it by name`)
+    assert.ok(tool, 'get_page_content is gone -- SKILL.md calls it by name')
     assert.deepEqual(tool.inputSchema.required.sort(), ['lib', 'path'])
-  })
-
-  test('exposes an index resource per library', async () => {
-    const { result } = await rpc('resources/list')
-    const uris = result.resources.map((r) => r.uri)
-
-    for (const lib of SERVED) {
-      assert.ok(uris.includes(`docs://${lib}/index`), `missing docs://${lib}/index`)
-    }
   })
 })
 
@@ -117,8 +83,6 @@ describe('index-then-fetch', () => {
   }
 })
 
-// Drift detectors. These fail when reality moves -- which is the point: SKILL.md
-// states coverage as fact, and a stale claim sends Claude down a dead end.
 describe('coverage claim', () => {
   test('no unserved library has quietly started working', async () => {
     const working = []
@@ -129,20 +93,9 @@ describe('coverage claim', () => {
     assert.deepEqual(
       working,
       [],
-      `${working.join(', ')} now serve docs -- widen SERVED here and the Coverage ` +
-        `section of skills/docs/SKILL.md, which still tells Claude to use WebFetch for them`,
+      `${working.join(', ')} now serve docs -- move them to SERVED in ` +
+        `scripts/docs-coverage.mjs and update the Coverage section of ` +
+        `skills/docs/SKILL.md, which still sends Claude to WebFetch for them`,
     )
-  })
-
-  test('SKILL.md names every served library', () => {
-    for (const lib of SERVED) {
-      assert.ok(skill.includes(lib), `SKILL.md never mentions ${lib}`)
-    }
-  })
-
-  test('SKILL.md warns about every unserved library', () => {
-    for (const lib of UNSERVED) {
-      assert.ok(skill.includes(lib), `SKILL.md never warns that ${lib} is unserved`)
-    }
   })
 })

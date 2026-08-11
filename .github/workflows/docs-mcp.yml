@@ -1,0 +1,48 @@
+name: docs-mcp
+
+# Checks the live docs.pmnd.rs MCP server against what skills/docs/SKILL.md claims.
+# Never on pull_request: this can only fail for reasons outside the contributor's
+# patch, and a build that goes red for someone else's outage is a build people learn
+# to ignore. On a schedule, the same failure is signal -- the server's coverage moved
+# and the skill now says something untrue.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # shell: bash for pipefail -- the default shell is `bash -e` without it, so tee
+      # would swallow a failing exit status and the check would always look green
+      - shell: bash
+        run: node --test scripts/check-docs-mcp.mjs 2>&1 | tee check.log
+
+      # A scheduled run nobody watches is worth nothing, so surface it where the work
+      # actually gets picked up. One issue, reopened and updated rather than piled up.
+      - if: failure()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          body=$(printf 'The weekly check against `https://docs.pmnd.rs/api/mcp` failed.\n\nEither the server is down, or its coverage moved and `skills/docs/SKILL.md` now tells Claude something untrue. The assertion says which.\n\n```\n%s\n```\n\n[Full run](%s)\n' "$(tail -40 check.log)" "$RUN")
+
+          # // empty, else jq prints the string "null" for an empty list and we would
+          # try to comment on issue null
+          existing=$(gh issue list --state open --label docs-mcp --limit 1 --json number -q '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh label create docs-mcp --description "Live docs MCP server check" --color FBCA04 --force
+            gh issue create --title "docs MCP server check is failing" --label docs-mcp --body "$body"
+          fi

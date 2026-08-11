@@ -48,10 +48,21 @@ claude plugin validate .claude-plugin/plugin.json
 node --test
 ```
 
-No dependencies — the suite runs on `node:test` and `fetch`. It talks to the real
-`docs.pmnd.rs`, on purpose: what breaks is not the code here but the server's
-coverage drifting away from what `skills/docs/SKILL.md` claims, and a mock would
-keep passing through exactly that drift. CI also runs it weekly for the same reason.
+Offline checks over this repo's own files — no dependencies, no network, runs in
+milliseconds. This is what CI gates pull requests on.
+
+```
+node --test scripts/check-docs-mcp.mjs
+```
+
+The live check against `https://docs.pmnd.rs/api/mcp`. It runs weekly rather than on
+pull requests: it can only fail for reasons outside your patch, and it files an issue
+when it does. What it catches is the server's coverage drifting away from what
+`skills/docs/SKILL.md` claims — so it talks to the real server, since a mock would
+keep passing through exactly that drift.
+
+The claim itself lives in [`scripts/docs-coverage.mjs`](scripts/docs-coverage.mjs):
+the offline suite pins the skill's prose to it, the live one pins it to reality.
 
 ## License
 
