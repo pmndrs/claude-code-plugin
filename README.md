@@ -42,6 +42,17 @@ claude plugin validate .
 claude plugin validate .claude-plugin/plugin.json
 ```
 
+## Test
+
+```
+node --test
+```
+
+No dependencies — the suite runs on `node:test` and `fetch`. It talks to the real
+`docs.pmnd.rs`, on purpose: what breaks is not the code here but the server's
+coverage drifting away from what `skills/docs/SKILL.md` claims, and a mock would
+keep passing through exactly that drift. CI also runs it weekly for the same reason.
+
 ## License
 
 MIT
