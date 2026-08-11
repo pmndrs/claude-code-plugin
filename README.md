@@ -9,9 +9,15 @@ servers — belongs here. What it actually carries is still being defined.
 
 ## Contents
 
-Nothing yet — the manifests, the license and the agent-facing docs, and that
-is deliberate. Components land as `agents/`, `skills/`, `commands/` and
-`.mcp.json` once we agree on what the plugin is for.
+- **`.mcp.json`** — the `pmndrs` MCP server (`https://docs.pmnd.rs/api/mcp`),
+  which serves the official docs for react-three-fiber, drei, zustand, xr,
+  uikit and the rest of the ecosystem.
+- **`skills/docs`** — makes Claude actually reach for those docs instead of
+  answering from memory, and teaches it to read a library index before
+  fetching a page.
+
+More components land as `agents/` and `commands/` as we agree on what else
+the plugin is for.
 
 ## Install
 
