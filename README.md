@@ -29,6 +29,28 @@ the plugin is for.
 /plugin install pmndrs@pmndrs
 ```
 
+## Update
+
+The MCP server takes care of itself: pages are fetched at request time and
+revalidated every five minutes, so docs published on `docs.pmnd.rs` reach you
+without a redeploy on either side — see
+[Agents › MCP server](https://pmndrs.github.io/docs/agents/introduction#mcp-server).
+
+The plugin is a different matter. It carries no `version` in its manifest, so
+Claude Code falls back to the source's commit SHA: every commit on `main` is a
+new version, and there is nothing to tag or release. Users pull it with
+
+```
+/plugin marketplace update pmndrs
+/plugin update pmndrs@pmndrs
+```
+
+or wait for the background refresh, which does the same on its own.
+
+The alternative, should the plugin ever want a release cadence, is to put
+`version` back in `.claude-plugin/plugin.json`: updates then only reach users
+when that field is bumped, and pushing to `main` stops being enough.
+
 ## Develop
 
 ```
