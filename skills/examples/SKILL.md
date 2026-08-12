@@ -25,7 +25,7 @@ no search tool — the index is the search.
 ### Reading a line
 
 ```
-{name} [({title}, when it is not just the name)] · {description} · +{libraries} · #{tags}
+{name} [({title}, when it is not just the name)] · {description} · +{libraries} · #{tags} · ~{size}
 ```
 
 Everything after the name is dropped when the demo does not carry it:
@@ -34,6 +34,7 @@ Everything after the name is dropped when the demo does not carry it:
 aquarium · #transmission
 arkanoid · Simple arkanoid implementation using cannon physics. · +cannon,zustand · #physics,game,audio
 bounds-and-makedefault (Bounds and makeDefault) · #bounds
+flow-shield · Interactive energy shield. · +postprocessing,leva · #shader · ~23k
 ```
 
 `+` lists what a demo uses *on top of* `@react-three/fiber` and `@react-three/drei`,
@@ -45,11 +46,19 @@ which all of them use — so `+rapier` is a real signal and the absence of `+` i
 167 have no description at all, so a name is sometimes the only thing that says what
 a demo is.
 
-## Budget
+## How many to open
 
-`get_example` runs 300–2k tokens for most demos, up to ~23k for the largest multi-file
-one. Fetch the single demo that answers the question. If three look plausible, narrow
-on the index lines first rather than pulling all three and comparing.
+Most demos are small — the median is ~1.4k tokens and nine tenths are under 4k. Three
+of them cost less than the index you have already read, so when two lines match
+equally well, open both. That is cheaper than opening one, finding it wrong and coming
+back, and it is often the answer outright: comparing `caustics` against
+`diamond-refraction` is what "transmission or refraction?" is asking for. Same when
+nothing does the whole job and the answer is one demo's scroll rig plus another's
+material.
+
+Eight demos are big enough that the choice matters, and they say so — a trailing
+`~23k` is what `get_example` will cost. **No marker means cheap.** Open a marked one
+deliberately, and never two.
 
 Two kinds of file come back named rather than inlined — binaries (`.glb`, textures,
 audio) and vendored or generated text (bundles, font atlases, gltfjsx dumps). Both are
