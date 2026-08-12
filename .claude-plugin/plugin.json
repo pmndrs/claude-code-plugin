@@ -1,7 +1,6 @@
 {
   "name": "pmndrs",
   "description": "Poimandres' Claude Code plugin.",
-  "version": "0.1.0",
   "author": { "name": "Poimandres", "url": "https://github.com/pmndrs" },
   "homepage": "https://github.com/pmndrs/claude-code-plugin",
   "repository": "https://github.com/pmndrs/claude-code-plugin",
