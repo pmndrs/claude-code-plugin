@@ -8,6 +8,11 @@ description: Look up the official pmndrs documentation before answering anything
 The `pmndrs` MCP server serves the official docs from docs.pmnd.rs. Prefer it over
 memory: these libraries move fast and recalled APIs go stale.
 
+The same server also serves the example gallery — see `pmndrs:examples`. The docs say
+what an API takes; an example shows a whole scene that works. A question about how
+something is put together usually wants both, in that order: find the demo, then
+confirm against the docs that its API is still current.
+
 ## Always index first
 
 Never guess a page path — `get_page_content` matches exactly, and route shapes differ
